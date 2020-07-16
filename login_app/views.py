@@ -19,7 +19,6 @@ def register(request):
             User.objects.register(request.POST)
             log_user = User.objects.last()
             request.session['user'] = f"{log_user.first_name} {log_user.last_name}"
-            request.session['email'] = log_user.email
             return redirect('/success')
 
 def login(request):
@@ -30,7 +29,6 @@ def login(request):
     if result == True:
         log_user = User.objects.get(email=request.POST['log_email'])
         request.session['user'] = f"{log_user.first_name} {log_user.last_name}"
-        request.session['email'] = log_user.email
         return redirect('/success')
 
 def success(request):
