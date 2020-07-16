@@ -5,11 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'login.css'%}">
-    <title>Document</title>
+    <title>The Wall</title>
 </head>
 <body>
-    <h1>Success! Welcome, {{request.session.user}}!</h1>
-    <p>Successfully registered(or Logged in)!</p>
-    <a href="/logout">Log Out</a>
+    <div class="header">
+        <h1>Coding Dojo Wall</h1>
+        <p>You're logged in as {{request.session.user}}</p>
+        <a href="/logout">Log Out</a>
+    </div>
+    <div id="messageboard">
+        <form action="/wall/post_message" method="POST">
+            {% csrf_token %}
+            <label for="message">Post a Message:</label>
+            <input type="text" name="message" id="message">
+            <input type="submit">    
+        </form>
+    
+        <div class="posts">
+            {% for post in posts %}
+                <h5>{{post.user_id.first_name}} {{post.user_id.last_name}} Member since:{{post.user_id.created_on}}</h5>
+                <p>Message: {{post.message}} </p>
+                <h6>Posted At:{{post.created_on}}</h6>
+                <ul>
+                    {%for comment in post.comments.all%}
+                    <li>{{comment.comment}}</li>
+                        <ul>
+                            <li>Posted by: {{comment.user_id.first_name}} on: {{comment.created_on}}</li>
+                        </ul>
+                    {% endfor %}
+                    
+                    <form action="/wall/post_comment/{{post.id}}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="comment" id="comment">
+                        <input type="submit" value="Post Comment">
+                    </form>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

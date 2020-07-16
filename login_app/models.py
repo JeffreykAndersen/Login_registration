@@ -59,3 +59,17 @@ class User(models.Model):
     update_on = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
+
+class MessagePost(models.Model):
+    message = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    update_on = models.DateTimeField(auto_now=True)
+    user_id = models.ForeignKey(User, related_name="messages", on_delete = models.CASCADE)
+
+
+class Comment(models.Model):
+    comment = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    update_on = models.DateTimeField(auto_now=True)
+    message_id = models.ForeignKey(MessagePost, related_name="comments", on_delete = models.CASCADE)
+    user_id = models.ForeignKey(User, related_name="comments", on_delete = models.CASCADE)
