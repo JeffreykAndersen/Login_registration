@@ -26,6 +26,8 @@
                 <h5>{{post.user_id.first_name}} {{post.user_id.last_name}} Member since:{{post.user_id.created_on}}</h5>
                 <p>Message: {{post.message}} </p>
                 <h6>Posted At:{{post.created_on}}</h6>
+                <a href="/like/{{post.id}}">Like</a>
+                <p>{{post.likes.count}}</p>
                 <ul>
                     {%for comment in post.comments.all%}
                     <li>{{comment.comment}}</li>

@@ -63,6 +63,7 @@ class User(models.Model):
 class MessagePost(models.Model):
     message = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User,related_name="messages_likes")
     update_on = models.DateTimeField(auto_now=True)
     user_id = models.ForeignKey(User, related_name="messages", on_delete = models.CASCADE)
 

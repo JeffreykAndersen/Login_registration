@@ -53,7 +53,7 @@ def post_message(request):
     
 def post_comment(request, id):
     if request.method == "POST":
-        new_comment = Comment.objects.create(
+        Comment.objects.create(
             comment = request.POST['comment'],
             user_id = User.objects.get(id=request.session['id']),
             message_id = MessagePost.objects.get(id=id)
@@ -65,3 +65,9 @@ def logout(request):
     request.session.flush()
     print("session flushed")
     return redirect('/')
+
+def like_post(request, id):
+    user_liking = User.objects.get(id=request.session['id'])
+    message_liked = MessagePost.objects.get(id=id)
+    message_liked.likes.add(user_liking)
+    return redirect('/success')
