@@ -61,13 +61,26 @@ def post_comment(request, id):
         return redirect('/success')
     return redirect('/')
 
-def logout(request):
-    request.session.flush()
-    print("session flushed")
-    return redirect('/')
-
 def like_post(request, id):
     user_liking = User.objects.get(id=request.session['id'])
     message_liked = MessagePost.objects.get(id=id)
     message_liked.likes.add(user_liking)
     return redirect('/success')
+
+def delete_comment(request,id):
+    delete = Comment.objects.get(id=id)
+    delete.delete()
+    return redirect('/success')
+
+def edit(request, id):
+    edit_user = User.objects.get(id=id)
+    edit_user.first_name = request.POST['first_name']
+    edit_user.last_name = request.POST['last_name']
+    edit_user.email = request.POST['email']
+    edit_user.save()
+    return redirect('/success')
+
+def logout(request):
+    request.session.flush()
+    print("session flushed")
+    return redirect('/')

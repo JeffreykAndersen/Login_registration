@@ -34,6 +34,7 @@
                         <ul>
                             <li>Posted by: {{comment.user_id.first_name}} on: {{comment.created_on}}</li>
                         </ul>
+                        <a href="delete/{{comment.id}}">Delete</a>
                     {% endfor %}
                     
                     <form action="/wall/post_comment/{{post.id}}" method="POST">
